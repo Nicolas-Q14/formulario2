@@ -1,1 +1,481 @@
-<!DOCTYPE html> <html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>LÚMINA - Suscripción</title> <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script> <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet"> <style> * { margin: 0; padding: 0; box-sizing: border-box; } body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden; font-family: 'DM Sans', sans-serif; background: linear-gradient(135deg, #f8e9ef, #eee5f4, #fff5ee); background-size: 300% 300%; animation: backgroundMove 10s ease infinite; } /* CUADRO DEL FORMULARIO */ .form-box { width: 100%; max-width: 470px; background: rgba(255,255,255,.82); border: 1px solid white; border-radius: 28px; padding: 55px 38px; text-align: center; box-shadow: 0 25px 70px rgba(111,76,108,.15); backdrop-filter: blur(15px); animation: entrance 1s ease both; position: relative; } /* DECORACIÓN */ .form-box::before, .form-box::after { content: "✧"; position: absolute; color: #c58ba8; font-size: 25px; animation: sparkle 3s infinite; } .form-box::before { top: 20px; left: 25px; } .form-box::after { bottom: 20px; right: 25px; animation-delay: 1s; } .logo { font-family: 'Playfair Display', serif; letter-spacing: 7px; font-size: 27px; color: #49364d; margin-bottom: 35px; } .line { width: 40px; height: 2px; background: #c58ba8; margin: 0 auto 25px; } h1 { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 500; line-height: 1.2; color: #49364d; margin-bottom: 17px; } h1 span { color: #c58ba8; font-style: italic; } .description { color: #8c7e8e; font-size: 13px; line-height: 1.8; margin-bottom: 30px; } /* ÚNICO CAMPO */ form { display: flex; flex-direction: column; gap: 12px; } input { width: 100%; padding: 17px 20px; border: 1px solid #eadde7; border-radius: 13px; background: #fff; outline: none; font-family: inherit; font-size: 13px; color: #49364d; transition: .3s; } input:focus { border-color: #c58ba8; box-shadow: 0 0 0 4px #c58ba820; } input::placeholder { color: #b7a9b7; } button { width: 100%; padding: 17px; border: none; border-radius: 13px; background: #49364d; color: white; font-family: inherit; font-weight: 700; font-size: 13px; cursor: pointer; transition: .3s; } button:hover { background: #a87998; transform: translateY(-3px); box-shadow: 0 10px 20px #a8799835; } button:disabled { opacity: .6; cursor: wait; transform: none; } #message { min-height: 25px; margin-top: 17px; font-size: 12px; line-height: 1.5; font-weight: 600; } .privacy { color: #aa9eaa; font-size: 10px; margin-top: 10px; } @keyframes entrance { from { opacity: 0; transform: translateY(30px) scale(.95); } to { opacity: 1; transform: translateY(0) scale(1); } } @keyframes sparkle { 0%, 100% { opacity: .4; transform: rotate(0deg) scale(.8); } 50% { opacity: 1; transform: rotate(25deg) scale(1.2); } } @keyframes backgroundMove { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } } @media(max-width: 480px) { .form-box { padding: 48px 24px; } h1 { font-size: 35px; } } </style> </head> <body> <div class="form-box"> <div class="logo">LÚMINA.</div> <div class="line"></div> <h1>Únete a algo<br><span>especial.</span></h1> <p class="description"> Déjanos tu correo electrónico y recibe novedades, inspiración y una bienvenida especial de LÚMINA. </p> <form id="subscribe-form"> <input type="email" name="user_email" placeholder="Ingresa tu correo electrónico" required > <button type="submit" id="submit-button"> SUSCRIBIRME → </button> </form> <div id="message" role="status" aria-live="polite"></div> <p class="privacy"> Respetamos tu privacidad. Cancela cuando quieras. </p> </div> <script> const PUBLIC_KEY = "2XBaxH3mGgvvBTz0X"; const SERVICE_ID = "service_bf395sc"; const TEMPLATE_ID = "template_mo075p9"; emailjs.init({ publicKey: PUBLIC_KEY }); const form = document.getElementById("subscribe-form"); const button = document.getElementById("submit-button"); const message = document.getElementById("message"); form.addEventListener("submit", async function(event) { event.preventDefault(); button.disabled = true; button.textContent = "ENVIANDO..."; message.textContent = ""; try { await emailjs.sendForm( SERVICE_ID, TEMPLATE_ID, form ); message.textContent = "¡Gracias por suscribirte! Revisa tu correo ♡"; message.style.color = "#548568"; form.reset(); } catch(error) { console.error("Error EmailJS:", error); message.textContent = "No se pudo enviar. Verifica tu configuración."; message.style.color = "#bd536b"; } finally { button.disabled = false; button.textContent = "SUSCRIBIRME →"; } }); </script> </body> </html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LÚMINA | Suscripción</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --cream: #fffaf6;
+      --pink: #f1dce7;
+      --rose: #c88ba7;
+      --purple: #92739f;
+      --dark: #403146;
+      --muted: #918493;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 15%, #f4e2e9 0, transparent 30%),
+        radial-gradient(circle at 85% 85%, #e9dff0 0, transparent 32%),
+        var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--dark);
+    }
+
+    /* FONDOS ANIMADOS */
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(2px);
+      pointer-events: none;
+      z-index: 0;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .orb-one {
+      width: 310px;
+      height: 310px;
+      background: #f0d9e5;
+      top: -120px;
+      left: -100px;
+    }
+
+    .orb-two {
+      width: 250px;
+      height: 250px;
+      background: #e5d8ef;
+      bottom: -100px;
+      right: -70px;
+      animation-delay: 2s;
+    }
+
+    .orb-three {
+      width: 100px;
+      height: 100px;
+      background: #f6e6dc;
+      top: 65%;
+      left: 12%;
+      animation-delay: 3s;
+    }
+
+    /* DECORACIÓN */
+
+    .sparkle {
+      position: fixed;
+      color: var(--rose);
+      font-size: 25px;
+      pointer-events: none;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    .sparkle-one {
+      top: 17%;
+      right: 18%;
+    }
+
+    .sparkle-two {
+      bottom: 20%;
+      left: 20%;
+      animation-delay: 1.2s;
+    }
+
+    .sparkle-three {
+      top: 75%;
+      right: 15%;
+      animation-delay: 2s;
+    }
+
+    /* CONTENEDOR */
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 610px;
+      padding: 65px 55px;
+      text-align: center;
+      background: rgba(255,255,255,.76);
+      border: 1px solid #ffffff;
+      border-radius: 30px;
+      box-shadow: 0 30px 90px rgba(89, 61, 88, .12);
+      backdrop-filter: blur(18px);
+      animation: entrance 1s ease both;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 31px;
+      font-weight: 700;
+      letter-spacing: 7px;
+      margin-bottom: 42px;
+      color: var(--dark);
+      animation: logoReveal 1.2s ease both;
+    }
+
+    .line {
+      width: 45px;
+      height: 2px;
+      background: var(--rose);
+      margin: 0 auto 25px;
+      animation: lineGrow 1s ease both;
+    }
+
+    .eyebrow {
+      color: var(--purple);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 7vw, 58px);
+      font-weight: 500;
+      line-height: 1.15;
+      margin-bottom: 22px;
+    }
+
+    h1 span {
+      color: var(--rose);
+      font-style: italic;
+    }
+
+    .description {
+      max-width: 410px;
+      margin: 0 auto 35px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    /* FORMULARIO: UN SOLO CAMPO */
+
+    .subscribe-form {
+      display: flex;
+      width: 100%;
+      padding: 7px;
+      background: #fff;
+      border: 1px solid #eadde6;
+      border-radius: 50px;
+      box-shadow: 0 12px 35px rgba(103, 72, 103, .08);
+      transition: .35s;
+    }
+
+    .subscribe-form:focus-within {
+      border-color: var(--rose);
+      box-shadow: 0 12px 35px rgba(174, 119, 153, .2);
+      transform: translateY(-3px);
+    }
+
+    .subscribe-form input {
+      flex: 1;
+      min-width: 0;
+      padding: 15px 18px;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--dark);
+      font-family: inherit;
+      font-size: 13px;
+    }
+
+    .subscribe-form input::placeholder {
+      color: #b2a6b2;
+    }
+
+    .subscribe-form button {
+      border: none;
+      border-radius: 40px;
+      padding: 15px 24px;
+      background: var(--dark);
+      color: #fff;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: .3s;
+    }
+
+    .subscribe-form button:hover {
+      background: var(--purple);
+      transform: scale(1.04);
+    }
+
+    .subscribe-form button:disabled {
+      opacity: .6;
+      cursor: wait;
+      transform: none;
+    }
+
+    #message {
+      min-height: 25px;
+      margin-top: 19px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .privacy {
+      margin-top: 18px;
+      color: #aa9eaa;
+      font-size: 10px;
+    }
+
+    .bottom-decoration {
+      margin-top: 35px;
+      color: var(--rose);
+      font-size: 20px;
+      letter-spacing: 8px;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    .footer {
+      position: fixed;
+      z-index: 2;
+      bottom: 20px;
+      color: #a99ca8;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    /* ANIMACIONES */
+
+    @keyframes entrance {
+      from {
+        opacity: 0;
+        transform: translateY(35px) scale(.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes logoReveal {
+      from {
+        opacity: 0;
+        letter-spacing: 15px;
+      }
+      to {
+        opacity: 1;
+        letter-spacing: 7px;
+      }
+    }
+
+    @keyframes lineGrow {
+      from { width: 0; }
+      to { width: 45px; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-25px) translateX(12px); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: .45;
+        transform: scale(.9) rotate(0);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2) rotate(15deg);
+      }
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width: 560px) {
+      body {
+        padding: 18px;
+      }
+
+      .container {
+        padding: 45px 23px;
+      }
+
+      .logo {
+        margin-bottom: 35px;
+      }
+
+      .subscribe-form {
+        flex-direction: column;
+        gap: 5px;
+        border-radius: 18px;
+        padding: 10px;
+      }
+
+      .subscribe-form input {
+        padding: 15px 12px;
+      }
+
+      .subscribe-form button {
+        width: 100%;
+      }
+
+      .footer {
+        position: relative;
+        bottom: auto;
+        margin-top: 22px;
+      }
+
+      .orb-one {
+        width: 190px;
+        height: 190px;
+      }
+
+      .orb-two {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    @media(prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="orb orb-one"></div>
+  <div class="orb orb-two"></div>
+  <div class="orb orb-three"></div>
+
+  <div class="sparkle sparkle-one">✧</div>
+  <div class="sparkle sparkle-two">✦</div>
+  <div class="sparkle sparkle-three">✧</div>
+
+  <main class="container">
+
+    <div class="logo">LÚMINA.</div>
+
+    <div class="line"></div>
+
+    <p class="eyebrow">Una experiencia para ti</p>
+
+    <h1>Un mundo de ideas<br>para <span>descubrir.</span></h1>
+
+    <p class="description">
+      Recibe novedades, inspiración y pequeños detalles
+      especialmente pensados para ti. Déjanos tu correo
+      y forma parte de nuestra comunidad.
+    </p>
+
+    <!-- ÚNICO CAMPO DEL FORMULARIO: CORREO ELECTRÓNICO -->
+
+    <form class="subscribe-form" id="subscribe-form">
+
+      <input
+        type="email"
+        name="user_email"
+        id="user_email"
+        placeholder="Escribe tu correo electrónico"
+        autocomplete="email"
+        required
+      >
+
+      <button type="submit" id="submit-button">
+        Suscribirme →
+      </button>
+
+    </form>
+
+    <div id="message" role="status" aria-live="polite"></div>
+
+    <p class="privacy">
+      Respetamos tu privacidad. Puedes cancelar tu suscripción cuando quieras.
+    </p>
+
+    <div class="bottom-decoration">✧ ♡ ✧</div>
+
+  </main>
+
+  <footer class="footer">
+    © 2026 LÚMINA · EMAIL MARKETING
+  </footer>
+
+  <script>
+    // DATOS DE CONEXIÓN EMAILJS
+    const PUBLIC_KEY = "2XBaxH3mGgvvBTz0X";
+    const SERVICE_ID = "service_bf395sc";
+    const TEMPLATE_ID = "template_mo075p9";
+
+    emailjs.init({
+      publicKey: PUBLIC_KEY
+    });
+
+    const form = document.getElementById("subscribe-form");
+    const button = document.getElementById("submit-button");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      button.disabled = true;
+      button.textContent = "Enviando...";
+      message.textContent = "";
+
+      try {
+        const response = await emailjs.sendForm(
+          SERVICE_ID,
+          TEMPLATE_ID,
+          form
+        );
+
+        console.log("EmailJS:", response.status, response.text);
+
+        message.textContent =
+          "¡Gracias por suscribirte! Revisa tu correo electrónico. ♡";
+
+        message.style.color = "#548568";
+
+        form.reset();
+
+      } catch (error) {
+        console.error("Error de EmailJS:", error);
+
+        message.textContent =
+          "No se pudo enviar el correo. Revisa la configuración de EmailJS.";
+
+        message.style.color = "#bd536b";
+
+      } finally {
+        button.disabled = false;
+        button.textContent = "Suscribirme →";
+      }
+    });
+  </script>
+
+</body>
+</html>
+v
